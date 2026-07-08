@@ -1,4 +1,4 @@
-# lorenzsw
+# A Lorentz Momemnt in Space Weather
 
 <div class="hero" markdown="1">
 
