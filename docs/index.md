@@ -1,7 +1,11 @@
 # lorenzsw
 
-`lorenzsw` is a research codebase for a chaotic/stochastic ionospheric
-continuity-equation model.
+`lorenzsw` is a publication-oriented toolkit for chaotic and stochastic
+ionospheric continuity-equation modeling.
+
+It combines Chapman photoionization, precipitation forcing, stochastic
+ensemble forecasts, and transfer-operator diagnostics for studying how
+electron density evolves and crosses operational thresholds.
 
 ## Contents
 

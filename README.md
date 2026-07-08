@@ -2,7 +2,14 @@
 
 [![Docs](https://img.shields.io/badge/docs-MkDocs-blue)](docs/index.md)
 
-Scaffold for the chaotic/stochastic ionospheric continuity-equation codebase.
+Chaos-informed ionospheric modeling with stochastic uncertainty.
+
+lorenzsw is a publication-oriented toolkit for modeling ionospheric electron
+density with Chapman photoionization, precipitation forcing, stochastic
+ensemble forecasts, and transfer-operator diagnostics.
+
+The canonical repository metadata text is documented in
+[docs/repository_metadata.md](docs/repository_metadata.md).
 
 ## Layout
 

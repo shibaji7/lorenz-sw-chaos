@@ -1,5 +1,5 @@
 site_name: lorenzsw
-site_description: Chaotic/stochastic ionospheric continuity-equation toolkit
+site_description: Publication-oriented toolkit for chaotic and stochastic ionospheric modeling
 theme:
   name: mkdocs
 nav:
@@ -11,6 +11,7 @@ nav:
   - Profile Figures: profile_figures.md
   - Figures: figure_notes.md
   - Portability: portability.md
+  - Repository Metadata: repository_metadata.md
   - References: references.md
   - Deployment: deployment.md
   - Usage: usage.md
