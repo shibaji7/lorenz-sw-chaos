@@ -124,6 +124,8 @@ This is a good first-pass chaos-style model for space weather because it is
 compact enough to understand term by term, but rich enough to show sensitivity,
 ensemble spread, and attractor-like behavior.
 
+For the deeper mathematical details, see [Chaos Model Details](chaos_model_details.md).
+
 ## How this is already defined in atmospheric sciences
 
 Stochastic and ensemble thinking is already standard in atmospheric science:

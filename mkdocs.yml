@@ -51,6 +51,7 @@ extra_javascript:
 nav:
   - Home: index.md
   - Space Weather Context: space_weather_context.md
+  - Chaos Model Details: chaos_model_details.md
   - Math: math_description.md
   - Example Forecast: example_forecast.md
   - Source Terms: source_terms.md
