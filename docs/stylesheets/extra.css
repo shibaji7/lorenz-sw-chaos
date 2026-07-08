@@ -1,0 +1,68 @@
+:root {
+  --md-primary-fg-color: #1d4ed8;
+  --md-primary-fg-color--light: #3b82f6;
+  --md-primary-fg-color--dark: #0f172a;
+  --md-accent-fg-color: #06b6d4;
+}
+
+.md-content {
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.06), transparent 24%),
+    radial-gradient(circle at left 20%, rgba(6, 182, 212, 0.05), transparent 26%);
+}
+
+.md-typeset h1 {
+  letter-spacing: -0.03em;
+}
+
+.md-typeset .hero {
+  padding: 1.25rem 0 0.5rem;
+}
+
+.md-typeset .hero h1 {
+  margin-bottom: 0.35rem;
+}
+
+.md-typeset .hero .lead {
+  max-width: 62rem;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.9rem;
+  margin: 1.5rem 0 1.75rem;
+}
+
+.md-typeset .feature-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.9rem;
+  padding: 1rem 1rem 0.9rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.md-typeset .feature-card h3 {
+  margin: 0 0 0.35rem;
+}
+
+.md-typeset .figure-frame {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.9rem;
+  padding: 0.5rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+}
+
+.md-typeset .figure-caption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset img {
+  border-radius: 0.75rem;
+}
