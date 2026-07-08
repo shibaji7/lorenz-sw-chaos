@@ -1,12 +1,13 @@
 # Chaos Model Details
 
-This page gives the deeper technical explanation that sits behind the broader
-[Space Weather Context](space_weather_context.md) page.
-
-The goal is to explain how the project uses chaos language, attractor language,
-and transfer-operator language in a space-weather setting.
+This page is the deeper follow-on to [Space Weather Context](space_weather_context.md).
+It is written for readers who want the mathematics behind the model after the
+motivation has already been established.
 
 ## The dynamical picture
+
+The basic idea is still simple: the model is a physical time-evolution law with
+an added uncertainty term.
 
 A compact way to write the model is as a nonlinear evolution law:
 
@@ -170,4 +171,3 @@ interpretable.
 - [Model Mathematics](math_description.md) gives the equations used by the code
 - [Figure Notes](figure_notes.md) explains how the attractor, ensemble, and
   exceedance plots are read
-
