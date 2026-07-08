@@ -14,14 +14,28 @@ error that grows quickly [Lorenz 1963](references.md#lorenz-1963).
 
 ## What chaos means here
 
-In this repository, "chaos" does not mean random in the everyday sense. It means
-that a deterministic nonlinear system can amplify tiny differences in initial
-conditions or forcing. Two forecasts started almost identically can separate
-rapidly because the governing equations are sensitive to perturbations.
+In this repository, "chaos" does not mean random in the everyday sense. It
+means that a deterministic nonlinear system can amplify tiny differences in
+initial conditions or forcing. Two forecasts started almost identically can
+separate rapidly because the governing equations are sensitive to perturbations.
 
-That is the same basic reason weather forecasts lose precision with lead time.
-The equations are deterministic, but the exact future is not practically
-recoverable once unresolved variability starts to grow.
+The simplest mathematical picture is a nonlinear flow in state space:
+
+$$
+\frac{d\mathbf{x}}{dt} = \mathbf{f}(\mathbf{x}, t),
+$$
+
+where `\mathbf{x}` is the state vector and `\mathbf{f}` is the nonlinear
+forcing-loss balance. If `\lambda_{\max} > 0` is the largest Lyapunov exponent,
+then nearby trajectories separate approximately like
+
+$$
+\|\delta \mathbf{x}(t)\| \approx \|\delta \mathbf{x}(0)\| e^{\lambda_{\max} t}.
+$$
+
+That is the mathematical expression of predictability loss. The equations are
+deterministic, but the exact future is not practically recoverable once
+unresolved variability starts to grow.
 
 In atmospheric and space physics, this matters because the ionosphere is
 coupled to:
@@ -52,6 +66,64 @@ Those results do not mean every ionospheric event is SOC or low-dimensional in a
 strict mathematical sense. They do show that bursty, heavy-tailed, and
 thresholded behavior is a familiar pattern in geospace.
 
+## Attractors and transfer operators
+
+A chaotic system is still structured. Its long-time behavior often lives on an
+attractor:
+
+$$
+\mathcal{A} = \bigcap_{t > 0} \overline{\bigcup_{\tau > t} \phi_{\tau}(\mathcal{B})},
+$$
+
+where `\phi_t` is the flow map and `\mathcal{B}` is a bounded region of state
+space. In plain language, the attractor is the set the system tends to visit
+after transients die away.
+
+The important point is not just that the system has an attractor, but that the
+attractor can be geometrically complicated. A strange attractor can fold and
+stretch phase-space volumes so that trajectories remain bounded while still
+separating exponentially. That is why a low-order, nonlinear model can be
+predictable for a while and then become uncertain.
+
+The same dynamics can also be described with transfer operators. If `\rho(x,t)`
+is a probability density over states, then a transfer operator evolves the
+density forward:
+
+$$
+\rho_{t+\Delta t} = \mathcal{P}^{\Delta t}\rho_t.
+$$
+
+Koopman-style operator ideas instead evolve observables:
+
+$$
+g_{t+\Delta t} = \mathcal{K}^{\Delta t} g_t.
+$$
+
+This operator view is useful because it can reveal coherent modes, decay rates,
+and metastable behavior even when the underlying trajectory is nonlinear
+[Mezić 2005](references.md#mezic-2005),
+[Schmid 2010](references.md#schmid-2010),
+[Tu et al. 2014](references.md#tu-2014).
+
+For a space-weather model, that matters because the goal is not only to simulate
+one trajectory. The goal is to understand which regimes the ionosphere tends to
+visit, how quickly it escapes one regime, and what structures dominate the
+forecast ensemble. That is the bridge from chaos to prediction.
+
+## Why this is useful in space weather
+
+Space-weather forcing is intermittent, thresholded, and often burst-like.
+Because of that, a chaos-informed model gives three practical benefits:
+
+- it gives a physically interpretable phase-space picture of the forecast
+- it turns the question from a single trajectory into a set of plausible
+  trajectories
+- it exposes how thresholds, tails, and regime shifts emerge from the dynamics
+
+This is a good first-pass chaos-style model for space weather because it is
+compact enough to understand term by term, but rich enough to show sensitivity,
+ensemble spread, and attractor-like behavior.
+
 ## How this is already defined in atmospheric sciences
 
 Stochastic and ensemble thinking is already standard in atmospheric science:
@@ -77,9 +149,83 @@ random." The role is to encode uncertainty about unresolved forcing, parameter
 variability, and small-scale processes that are too expensive or too poorly
 observed to resolve directly.
 
-This project follows that philosophy, but it does so in a very compact way. The
-continuity equation is still the main physical law. The stochastic part is used
-to represent unresolved variability, not to replace the physics [Berner et al. 2017](references.md#berner-2017).
+This project follows that philosophy, but it does so in a compact first-pass
+space-weather setting. The continuity equation remains the physical backbone.
+The stochastic part represents unresolved variability, not a replacement for
+the physics [Berner et al. 2017](references.md#berner-2017).
+
+## Modeling choices
+
+There are several different ways to represent uncertainty, and they answer
+different questions.
+
+### Deterministic physics model
+
+The baseline model is a deterministic evolution law:
+
+$$
+\frac{dn}{dt} = f(n,t).
+$$
+
+This is best when the physics is well known and the uncertainty is small enough
+to ignore for the task at hand.
+
+### Stochastic differential equation
+
+An SDE adds random forcing directly to the evolution law:
+
+$$
+dn = f(n,t)\,dt + g(n,t)\,dW_t.
+$$
+
+This is useful when unresolved variability acts continuously in time and should
+be part of the dynamics rather than attached afterward as post-processing.
+
+The SDE is not trying to say the world is random in an abstract sense. It is
+trying to say that some unresolved effects behave like noise at the resolved
+scale.
+
+### Gaussian process model
+
+A Gaussian Process is a probabilistic model for functions:
+
+$$
+f(\mathbf{x}) \sim \mathcal{GP}(m(\mathbf{x}), k(\mathbf{x},\mathbf{x}')).
+$$
+
+That is useful for interpolation, surrogate modeling, and regression with
+uncertainty. It is not, by itself, a dynamical law for a state evolving through
+time.
+
+So a GP is excellent when you want a smooth statistical emulator. It is less
+natural when the question is how a physical state evolves under forcing and loss.
+
+### Ensemble propagation
+
+Ensemble propagation is a workflow, not a model:
+
+$$
+\{n^{(1)}(t), n^{(2)}(t), \dots, n^{(M)}(t)\}.
+$$
+
+It answers the question: if I evolve many plausible realizations forward, what
+spread do I get?
+
+That is different from a GP because the ensemble can be built from a physical
+SDE or a deterministic model with perturbed inputs. It is also different from a
+single deterministic forecast because it exposes uncertainty explicitly.
+
+### Why SDEs are beneficial here
+
+For this project, an SDE is useful because it sits between the other choices:
+
+- more physically structured than a GP surrogate
+- more explicit about uncertainty than a single deterministic run
+- more interpretable than a black-box statistical emulator
+- naturally compatible with ensemble forecasting
+
+That combination is what makes it suitable for a first-pass chaotic space-weather
+model.
 
 ## Why a stochastic continuity equation is useful
 
@@ -94,29 +240,31 @@ That structure is useful because it separates three ideas:
 - stochastic forcing expresses uncertainty, intermittency, or unresolved
   subgrid variability
 
-This is especially natural for the ionosphere because the sources themselves
-are intermittent. Solar flares and precipitation events do not arrive as smooth
+This is especially natural for the ionosphere because the sources themselves are
+intermittent. Solar flares and precipitation events do not arrive as smooth
 sinusoids. They arrive in episodes.
 
 ## Benefits
 
-A stochastic continuity model has several practical advantages:
+A stochastic space-weather model has several practical advantages:
 
-- it preserves physical meaning of the governing terms
+- it preserves a physical core while adding uncertainty in a controlled way
 - it produces an ensemble, not just a single line
 - it shows forecast spread explicitly
 - it lets you compare deterministic bias against uncertainty growth
+- it can reveal attractor-like structure and regime transitions
 - it is simple enough to inspect and test
 
-That last point matters for teaching. A student can trace every term in the
-equation and see how the forecast changes when one piece of physics is modified.
+That last point matters for teaching. A student can trace the model from the
+equation to the forecast and see how the outcome changes when one piece of
+physics is modified.
 
 For undergraduates, this is a good introduction to how deterministic physics and
 probabilistic forecast thinking can coexist.
 
 For graduate students, it is a controlled testbed for ideas like multiplicative
-noise, ensemble dispersion, predictability horizon, and transfer-operator
-reduction.
+noise, ensemble dispersion, predictability horizon, transfer-operator reduction,
+and regime geometry in phase space.
 
 ## Limitations
 
@@ -130,6 +278,8 @@ Important limitations are:
 - the stochastic term is phenomenological, not a direct derivation from
   microscopic collision physics
 - forecast spread depends strongly on parameter choices
+- attractor and operator diagnostics are informative, but they are still
+  approximations of a much more complex physical system
 
 That is not a flaw. It is the point of the model. The goal is to isolate the
 logic of chaos and uncertainty in a setting where the physics remains visible.
@@ -156,8 +306,13 @@ same:
    - Multiple physically plausible trajectories are propagated forward to show
      how sensitive the future is.
 
+5. Gaussian-process uncertainty
+   - A statistical prior is placed on functions, usually for interpolation or
+     emulation.
+
 This repository uses the third and fourth ideas. The spread is not just a plot
-of error bars. It is the expected result of a stochastic dynamical system.
+of error bars. It is the expected result of a stochastic dynamical system with
+an attractor-like phase-space structure.
 
 ## Connection to space physics
 
