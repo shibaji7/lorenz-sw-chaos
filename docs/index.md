@@ -1,8 +1,8 @@
 # lorenzsw
 
-<div class="hero">
+<div class="hero" markdown="1">
 
-# Publication-Oriented Ionospheric Chaos Modeling
+## Publication-Oriented Ionospheric Chaos Modeling
 
 `lorenzsw` is a research toolkit for chaotic and stochastic ionospheric
 continuity-equation modeling.
@@ -13,9 +13,9 @@ electron density evolves and crosses operational thresholds.
 
 </div>
 
-<div class="feature-grid">
+<div class="feature-grid" markdown="1">
 
-<div class="feature-card">
+<div class="feature-card" markdown="1">
 
 ### Physics first
 
@@ -24,7 +24,7 @@ explicit so each curve in the figures maps to a named physical process.
 
 </div>
 
-<div class="feature-card">
+<div class="feature-card" markdown="1">
 
 ### Uncertainty visible
 
@@ -33,7 +33,7 @@ instead of hidden inside a single deterministic line.
 
 </div>
 
-<div class="feature-card">
+<div class="feature-card" markdown="1">
 
 ### Publication ready
 
@@ -69,11 +69,11 @@ typography, restrained color, and figure notes that explain the major terms.
 
 ## A closer look
 
-<div class="figure-frame">
+<div class="figure-frame" markdown="1">
 
 ![Figure 4: Exceedance probability and tail risk](assets/figures/fig4_exceedance.png)
 
-<div class="figure-caption">Exceedance maps and tail probabilities are the
+<div class="figure-caption" markdown="1">Exceedance maps and tail probabilities are the
 kind of threshold-based visual summary this toolkit is built to make easy to
 interpret.</div>
 
