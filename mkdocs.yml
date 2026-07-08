@@ -1,0 +1,16 @@
+site_name: lorenzsw
+site_description: Chaotic/stochastic ionospheric continuity-equation toolkit
+theme:
+  name: mkdocs
+nav:
+  - Home: index.md
+  - Space Weather Context: space_weather_context.md
+  - Math: math_description.md
+  - Example Forecast: example_forecast.md
+  - Source Terms: source_terms.md
+  - Profile Figures: profile_figures.md
+  - Figures: figure_notes.md
+  - Portability: portability.md
+  - References: references.md
+  - Deployment: deployment.md
+  - Usage: usage.md

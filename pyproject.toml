@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lorenzsw"
+version = "0.1.0"
+description = "Chaotic/stochastic ionospheric continuity-equation toolkit"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+  {name = "OpenAI"}
+]
+dependencies = [
+  "numpy",
+  "scipy",
+  "matplotlib",
+  "pandas",
+  "loguru",
+  "scienceplots",
+  "pydmd",
+  "nolds",
+  "requests",
+]
+
+[project.urls]
+Homepage = "https://example.com/lorenzsw"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lorenzsw = ["*.json", "figures/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
