@@ -16,7 +16,7 @@ It shows four linked pieces:
 
 - solar and external forcing
 - ionization and production
-- the ionosphere state `n(h,t)`
+- the ionosphere state \(n(h,t)\)
 - comparison against observables
 
 What it means:
@@ -164,7 +164,7 @@ threshold.
 
 Left panel: exceedance map
 
-- x-axis is the density threshold `n_*`
+- x-axis is the density threshold \(n_*\)
 - y-axis is altitude
 - color is the fraction of ensemble members exceeding that threshold at the
   final time
@@ -252,10 +252,10 @@ What it shows:
 
 What the main parameters do:
 
-- `P_0` controls the source strength
-- `h_m` controls the peak altitude
-- `H` controls the vertical spread
-- `chi` changes the solar-zenith dependence of the profile shape
+- \(P_0\) controls the source strength
+- \(h_m\) controls the peak altitude
+- \(H\) controls the vertical spread
+- \(\chi\) changes the solar-zenith dependence of the profile shape
 
 Why it matters:
 
@@ -276,10 +276,10 @@ What it shows:
 
 What the main parameters do:
 
-- `Q_0` controls the total source strength
-- `h_p` controls the peak altitude of deposition
-- `H_p` controls the vertical width of the forcing
-- `\Delta\varepsilon_{\mathrm{ion}}` sets the normalization used to convert the
+- \(Q_0\) controls the total source strength
+- \(h_p\) controls the peak altitude of deposition
+- \(H_p\) controls the vertical width of the forcing
+- \(\Delta\varepsilon_{\mathrm{ion}}\) sets the normalization used to convert the
   precipitation proxy into ionization
 
 Why it matters:
