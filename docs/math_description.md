@@ -55,10 +55,10 @@ $$
 
 Where:
 
-- `P_0(t)` is the peak production rate
-- `h_m` is the Chapman layer peak altitude
-- `H` is the Chapman scale height
-- `\chi` is the solar zenith angle proxy
+- \(P_0(t)\) is the peak production rate
+- \(h_m\) is the Chapman layer peak altitude
+- \(H\) is the Chapman scale height
+- \(\chi\) is the solar zenith angle proxy
 
 This is the standard Chapman functional form used to create a compact ionization
 layer with an asymmetric altitude profile [Chapman 1931](references.md#chapman-1931).
