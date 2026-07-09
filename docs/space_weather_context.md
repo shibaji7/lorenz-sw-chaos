@@ -23,7 +23,7 @@ $$
 \frac{d\mathbf{x}}{dt} = \mathbf{f}(\mathbf{x}, t).
 $$
 
-Here `\mathbf{x}` is the state and `\mathbf{f}` is the forcing-loss balance. If
+Here \(\mathbf{x}\) is the state and \(\mathbf{f}\) is the forcing-loss balance. If
 the largest Lyapunov exponent is positive,
 
 $$
@@ -114,8 +114,15 @@ $$
 f(\mathbf{x}) \sim \mathcal{GP}(m(\mathbf{x}), k(\mathbf{x},\mathbf{x}')).
 $$
 
-This is a statistical model for functions. It is very useful for interpolation
-and emulation, but it is not, by itself, a physical time-evolution law.
+This is a statistical model for functions. The "Gaussian" part refers to the
+fact that any finite set of function values is assumed to be jointly Gaussian,
+not that the target data must itself look like one bell curve. That makes GPs
+very useful for interpolation and uncertainty estimates, but they still rely on
+smoothness, kernel, and noise assumptions that can be strained by intermittent
+space-weather events, nonstationary baselines, or heavy-tailed extremes.
+
+In other words, a GP can be an excellent emulator, but it is not, by itself, a
+physical time-evolution law.
 
 ### Ensemble propagation
 

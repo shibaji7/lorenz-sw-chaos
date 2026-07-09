@@ -15,7 +15,7 @@ $$
 \frac{d\mathbf{x}}{dt} = \mathbf{f}(\mathbf{x}, t),
 $$
 
-where `\mathbf{x}` is the state of the ionospheric model and `\mathbf{f}`
+where \(\mathbf{x}\) is the state of the ionospheric model and \(\mathbf{f}\)
 contains the forcing, loss, and coupling terms.
 
 If the model is perturbed by unresolved variability, the evolution becomes a
@@ -25,8 +25,8 @@ $$
 d\mathbf{x} = \mathbf{f}(\mathbf{x}, t)\,dt + \mathbf{G}(\mathbf{x}, t)\,d\mathbf{W}_t.
 $$
 
-Here `\mathbf{G}` controls the strength and direction of the stochastic
-fluctuations, and `d\mathbf{W}_t` is a Wiener increment.
+Here \(\mathbf{G}\) controls the strength and direction of the stochastic
+fluctuations, and \(d\mathbf{W}_t\) is a Wiener increment.
 
 This is the mathematical core of the project:
 
@@ -37,7 +37,7 @@ This is the mathematical core of the project:
 ## What chaos means in this model
 
 Chaos means that the deterministic flow has sensitivity to initial conditions.
-If `\lambda_{\max} > 0`, then nearby trajectories separate roughly like
+If \(\lambda_{\max} > 0\), then nearby trajectories separate roughly like
 
 $$
 \|\delta \mathbf{x}(t)\| \sim \|\delta \mathbf{x}(0)\| e^{\lambda_{\max} t}.
@@ -81,14 +81,14 @@ in the long run while still being hard to predict in detail.
 The transfer-operator view is useful because it shifts the question from
 individual trajectories to distributions.
 
-If `\rho(x,t)` is a probability density over states, then a transfer operator
+If \(\rho(x,t)\) is a probability density over states, then a transfer operator
 propagates densities:
 
 $$
 \rho_{t+\Delta t} = \mathcal{P}^{\Delta t}\rho_t.
 $$
 
-If `g(x,t)` is an observable, the Koopman operator propagates observables:
+If \(g(x,t)\) is an observable, the Koopman operator propagates observables:
 
 $$
 g_{t+\Delta t} = \mathcal{K}^{\Delta t} g_t.
@@ -142,6 +142,9 @@ Compared with a purely deterministic model:
 Compared with a Gaussian Process surrogate:
 
 - the SDE keeps the physical time-evolution law in the foreground
+- the GP assumes finite sets of function values are jointly Gaussian, which is
+  excellent for smooth interpolation but less natural for intermittent,
+  nonstationary, or heavy-tailed space-weather extremes
 - the GP is better for interpolation, but not as natural for explicit dynamics
 
 Compared with perturbing inputs in a deterministic ensemble:
