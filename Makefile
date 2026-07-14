@@ -10,7 +10,7 @@ help: ## Show available make targets
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_.-]+:.*##/ {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 clean: ## Remove caches and generated artifacts
-	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov site figures/output .coverage .coverage.*
+	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov site figures .coverage .coverage.*
 	find . -type d -name '__pycache__' -prune -exec rm -rf {} +
 
 test: ## Run the test suite

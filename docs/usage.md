@@ -20,6 +20,7 @@ make coverage
 ```bash
 python scripts/generate_all_figures.py
 make figures
+make claim-figures
 python scripts/plot_photoionization_term.py
 python scripts/plot_precipitation_term.py
 ```

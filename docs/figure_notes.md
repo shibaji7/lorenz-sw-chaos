@@ -6,6 +6,9 @@ which physical or statistical question it answers.
 The intent is not just to label the plots. The intent is to show how each
 figure connects back to the ionospheric forecast problem.
 
+If you are looking for the alternate paper-claim numbering, see
+[Claim Figure Set](claim_figure_notes.md).
+
 ## Figure 1: SW-M-I schematic
 
 `fig1_swmi_schematic.png` is the conceptual map of the whole workflow.

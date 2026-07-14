@@ -57,3 +57,33 @@ def euler_maruyama_step(
     dW = rng.normal(loc=0.0, scale=np.sqrt(dt_s), size=n.shape)
     n_next = n + drift * dt_s + diffusion * dW
     return np.abs(n_next)
+
+
+def imex_step(
+    n: np.ndarray,
+    P_total: np.ndarray,
+    alpha_cm3s: float,
+    beta_s: float,
+    diffusion: np.ndarray,
+    dt_s: float,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    """Semi-implicit (IMEX) Euler-Maruyama step.
+
+    Production and stochastic diffusion are treated explicitly; the quadratic
+    (``alpha_cm3s * n**2``) and linear (``beta_s * n``) loss terms are treated
+    implicitly. This is unconditionally stable in the loss term regardless of
+    ``dt_s`` or pulse amplitude, unlike ``euler_maruyama_step``, which was
+    observed to overflow to ~1e269 within the first two steps once an early SOC
+    pulse pushed ``alpha_cm3s * n * dt_s`` past the explicit stability margin.
+    """
+
+    n = np.asarray(n, dtype=float)
+    P_total = np.asarray(P_total, dtype=float)
+    diffusion = np.asarray(diffusion, dtype=float)
+    if dt_s <= 0:
+        raise ValueError("dt_s must be positive.")
+
+    n_deterministic = (n + P_total * dt_s) / (1.0 + alpha_cm3s * n * dt_s + beta_s * dt_s)
+    dW = rng.normal(loc=0.0, scale=np.sqrt(dt_s), size=n.shape)
+    return np.abs(n_deterministic + diffusion * dW)

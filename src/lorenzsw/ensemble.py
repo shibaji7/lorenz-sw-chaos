@@ -8,8 +8,7 @@ import numpy as np
 from loguru import logger
 
 from .chapman import chapman_production
-from .continuity import continuity_drift
-from .sde import diffusion_term, euler_maruyama_step
+from .sde import diffusion_term, euler_maruyama_step, imex_step
 from .precipitation import PrecipitationModel
 
 
@@ -62,9 +61,8 @@ def run_ensemble(
                 raise ValueError("t_grid_s must be strictly increasing.")
             P_solar = chapman_production(h_km, t, P0_t, h_m_km, H_km, chi_rad)
             P_precip = precip_model(h_km, t)
-            drift = continuity_drift(n, P_solar, P_precip, alpha_cm3s, beta_s)
             diffusion = diffusion_term(n, P_precip, P_max, sigma0, beta_g)
-            n = euler_maruyama_step(n, drift, diffusion, dt, rng)
+            n = imex_step(n, P_solar + P_precip, alpha_cm3s, beta_s, diffusion, dt, rng)
             ensemble[member, k + 1] = n
 
     return ensemble
@@ -106,10 +104,63 @@ def run_deterministic(
             raise ValueError("t_grid_s must be strictly increasing.")
         P_solar = chapman_production(h_km, t, P0_t, h_m_km, H_km, chi_rad)
         P_precip = precip_model(h_km, t)
-        drift = continuity_drift(n, P_solar, P_precip, alpha_cm3s, beta_s)
-        n = np.abs(n + drift * dt)
+        n = np.abs((n + (P_solar + P_precip) * dt) / (1.0 + alpha_cm3s * n * dt + beta_s * dt))
         n_hist[k + 1] = n
     return n_hist
+
+
+def run_gaussian_uq_ensemble(
+    n0: np.ndarray,
+    t_grid_s: np.ndarray,
+    h_km: np.ndarray,
+    P0_t: Callable[[float], float],
+    Q0_t: Callable[[float], float],
+    precip_model: PrecipitationModel,
+    h_m_km: float,
+    H_km: float,
+    chi_rad: float,
+    alpha_cm3s: float,
+    beta_s: float,
+    n0_sigma_frac: float = 0.05,
+    P0_sigma_frac: float = 0.05,
+    n_members: int = 500,
+    seed: int = 0,
+) -> np.ndarray:
+    """Classical Gaussian-UQ ensemble: perturb IC/production, propagate deterministically.
+
+    Distinct from ``run_ensemble``: no continuous multiplicative noise term. Each
+    member draws one Gaussian-perturbed initial condition and one Gaussian
+    production-scale factor, then evolves under the same drift as
+    ``run_deterministic``. Intentionally ignores ``sigma0``/``beta_g``/``P_max``.
+    """
+
+    n0 = np.asarray(n0, dtype=float)
+    if n_members < 1:
+        raise ValueError("n_members must be at least 1.")
+
+    logger.info("Running Gaussian-UQ ensemble with {} members", n_members)
+    rng = np.random.default_rng(seed)
+    ensemble = np.empty((n_members, t_grid_s.size, h_km.size), dtype=float)
+
+    for member in range(n_members):
+        n0_pert = np.abs(n0 * (1.0 + n0_sigma_frac * rng.standard_normal(n0.shape)))
+        p0_scale = 1.0 + P0_sigma_frac * rng.standard_normal()
+        P0_t_pert = (lambda t, _scale=p0_scale: _scale * P0_t(t))
+        ensemble[member] = run_deterministic(
+            n0=n0_pert,
+            t_grid_s=t_grid_s,
+            h_km=h_km,
+            P0_t=P0_t_pert,
+            Q0_t=Q0_t,
+            precip_model=precip_model,
+            h_m_km=h_m_km,
+            H_km=H_km,
+            chi_rad=chi_rad,
+            alpha_cm3s=alpha_cm3s,
+            beta_s=beta_s,
+        )
+
+    return ensemble
 
 
 def calibrate_drift_diffusion(

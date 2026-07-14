@@ -12,8 +12,9 @@ from loguru import logger
 
 from .._logging import configure_logging
 from ..model_params import load_model_params
-from ..transfer_operator import dmd_transfer_operator
 from ..plotting import format_axes, set_publication_style
+from ..scenarios import build_chaotic_scenario
+from ..transfer_operator import dmd_transfer_operator
 
 
 logger.debug("Loaded fig3 module")
@@ -24,15 +25,13 @@ def make_figure(output_path: Path, params: dict | None = None) -> Path:
     set_publication_style("nature")
     if params is None:
         params = load_model_params()
-    h_km = np.linspace(params["fig3_h_km_min"], params["fig3_h_km_max"], int(params["fig3_h_km_points"]))
-    t = np.linspace(params["fig3_t_min"], params["fig3_t_max"], int(params["fig3_t_points"]))
-    snapshots = np.vstack(
-        [
-            params["fig3_snapshot_amp_cm3"] * np.exp(-params["fig3_snapshot_decay"] * k)
-            * (1.0 + 0.2 * np.sin(2.0 * np.pi * t + params["fig3_snapshot_phase"] * k))
-            for k in range(h_km.size)
-        ]
-    )
+
+    scenario = build_chaotic_scenario(params)
+    h_km = scenario.h_km
+    # DMD wants (n_features, n_time). Use the deterministic response to the SOC +
+    # Lorenz-63 forcing so the spectrum reflects the same run shown in Fig. 2,
+    # rather than an unrelated synthetic signal.
+    snapshots = scenario.deterministic.T
 
     eigs, modes = dmd_transfer_operator(snapshots, r=int(params["fig3_dmd_rank"]))
 
@@ -55,7 +54,7 @@ def make_figure(output_path: Path, params: dict | None = None) -> Path:
     ax.set_title("Leading DMD mode")
     format_axes(ax)
 
-    fig.suptitle("Transfer-operator approximation via DMD", y=1.03)
+    fig.suptitle("Transfer-operator approximation via DMD (SOC + Lorenz-63 forced run)", y=1.03)
     fig.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_path, dpi=200, bbox_inches="tight")

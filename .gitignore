@@ -12,5 +12,7 @@ htmlcov/
 .coverage.*
 coverage.xml
 .DS_Store
-figures/output/
+figures/
 *.log
+
+ignore

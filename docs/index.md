@@ -61,6 +61,7 @@ typography, restrained color, and figure notes that explain the major terms.
 - [Source Terms](source_terms.md)
 - [Profile Figures](profile_figures.md)
 - [Figure Notes](figure_notes.md)
+- [Claim Figure Set](claim_figure_notes.md)
 - [Portability](portability.md)
 - [Repository Metadata](repository_metadata.md)
 - [References](references.md)
