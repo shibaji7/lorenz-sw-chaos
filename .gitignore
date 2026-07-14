@@ -13,6 +13,8 @@ htmlcov/
 coverage.xml
 .DS_Store
 figures/
+!docs/assets/figures/
+!docs/assets/figures/*.png
 *.log
 
 ignore
