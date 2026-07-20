@@ -36,7 +36,7 @@ from lorenzsw.plotting import format_axes, set_publication_style
 from lorenzsw.precipitation import gaussian_precipitation
 from lorenzsw.transfer_operator import dmd_transfer_operator
 
-from _source_term_plot_utils import mirror_figure_to_docs
+from _source_term_plot_utils import mirror_figure_to_docs, save_figure_pair
 
 
 def _claim_params(params: dict) -> dict:
@@ -138,7 +138,7 @@ def _fig1_claim(output_path: Path, params: dict) -> Path:
     ax.add_patch(plt.Rectangle((0.03, 0.08), 0.94, 0.82, fill=False, linewidth=1.0, linestyle="--", edgecolor="0.55"))
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path
@@ -260,7 +260,7 @@ def _fig2_claim(output_path: Path, params: dict) -> tuple[Path, np.ndarray, np.n
 
     fig.suptitle("Claim figure 02: stronger spread and explicit predictability horizon", y=1.02)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path, ensemble, t_grid_s
@@ -315,7 +315,7 @@ def _fig3_claim(output_path: Path, params: dict, ensemble: np.ndarray, t_grid_s:
     cbar.set_label(r"$\bar n(h,t)$ [cm$^{-3}$]")
     fig.suptitle("Claim figure 03: DMD from the Figure 02 ensemble mean", y=1.02)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path
@@ -471,7 +471,7 @@ def _fig4_claim(output_path: Path, params: dict) -> Path:
     _tail_panel(axes[1, 1], gauss_final, "#d95f02", "Gaussian-UQ tail at 90 km")
     fig.suptitle("Claim figure 04: SDE versus Gaussian uncertainty", y=1.02)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path

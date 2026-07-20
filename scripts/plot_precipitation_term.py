@@ -32,7 +32,7 @@ from lorenzsw._logging import configure_logging
 from lorenzsw.model_params import load_model_params
 from lorenzsw.plotting import format_axes, set_publication_style
 from lorenzsw.precipitation import gaussian_precipitation
-from _source_term_plot_utils import equilibrium_density, mirror_figure_to_docs
+from _source_term_plot_utils import equilibrium_density, mirror_figure_to_docs, save_figure_pair
 
 
 set_publication_style("nature")
@@ -106,7 +106,7 @@ def make_figure(output_path: Path, params: dict | None = None) -> Path:
     fig.suptitle("Precipitation source term and density response", y=1.02)
     fig.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     mirror_figure_to_docs(output_path, "precipitation_term.png")
     logger.success("Wrote {}", output_path)

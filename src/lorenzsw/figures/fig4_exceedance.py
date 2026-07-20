@@ -18,6 +18,7 @@ from ..forcing.soc_flare import soc_flare_forcing
 from ..model_params import load_model_params
 from ..precipitation import gaussian_precipitation
 from ..plotting import format_axes, set_publication_style
+from ._save_utils import save_figure_pair
 
 
 logger.debug("Loaded fig4 module")
@@ -118,7 +119,7 @@ def make_figure(output_path: Path, params: dict | None = None) -> Path:
     fig.suptitle("Exceedance probabilities from the ensemble", y=1.03)
     fig.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path

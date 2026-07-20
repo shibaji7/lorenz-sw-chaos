@@ -15,6 +15,7 @@ from ..model_params import load_model_params
 from ..plotting import format_axes, set_publication_style
 from ..scenarios import build_chaotic_scenario
 from ..transfer_operator import dmd_transfer_operator
+from ._save_utils import save_figure_pair
 
 
 logger.debug("Loaded fig3 module")
@@ -57,7 +58,7 @@ def make_figure(output_path: Path, params: dict | None = None) -> Path:
     fig.suptitle("Transfer-operator approximation via DMD (SOC + Lorenz-63 forced run)", y=1.03)
     fig.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path

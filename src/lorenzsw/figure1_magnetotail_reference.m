@@ -141,6 +141,7 @@ text(ax, ps_ctr(1) + 0.16, ps_ctr(2), 'SPHERE', 'FontSize', 5.8, ...
 
 set(fig, 'InvertHardcopy', 'off');
 ref_png = fullfile(out_dir, 'figure1_magnetotail_reference.png');
+ref_tif = fullfile(out_dir, 'figure1_magnetotail_reference.tif');
 target_png = fullfile(out_dir, 'figure1_solar_wind_schematic.png');
 exportgraphics(fig, ref_png, 'Resolution', 600);
 if isfile(target_png)
@@ -159,6 +160,7 @@ if isfile(target_png)
         ref_img(src_y0:src_y0+paste_h-1, src_x0:src_x0+paste_w-1, :);
     imwrite(canvas, ref_png);
 end
+imwrite(imread(ref_png), ref_tif);
 exportgraphics(fig, fullfile(out_dir, 'figure1_magnetotail_reference.pdf'), 'ContentType', 'vector');
 
 function draw_oval_band(ax, center, outer_rx, outer_ry, inner_rx, inner_ry, a1, a2, color)

@@ -9,6 +9,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from loguru import logger
 
+from ._save_utils import save_figure_pair
+
 
 logger.debug("Loaded fig1 module")
 
@@ -52,7 +54,7 @@ def make_figure(output_path: Path, params: dict | None = None) -> Path:
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     logger.success("Wrote {}", output_path)
     return output_path

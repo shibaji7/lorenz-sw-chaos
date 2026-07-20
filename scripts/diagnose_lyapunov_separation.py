@@ -37,6 +37,7 @@ from lorenzsw.lyapunov import estimate_lyapunov_renormalized
 from lorenzsw.model_params import load_model_params
 from lorenzsw.plotting import format_axes, set_publication_style
 from lorenzsw.scenarios import build_chaotic_forcing
+from _source_term_plot_utils import save_figure_pair
 
 
 def main(output_path: Path) -> None:
@@ -88,7 +89,7 @@ def main(output_path: Path) -> None:
     fig.suptitle("Renormalized twin-experiment: does the local rate change during SOC pulses?", y=1.0)
     fig.tight_layout()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=200, bbox_inches="tight")
+    save_figure_pair(fig, output_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
     print(f"Wrote {output_path}")
 

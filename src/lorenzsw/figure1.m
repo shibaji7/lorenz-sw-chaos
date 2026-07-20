@@ -128,6 +128,7 @@ text(ax, origin(1) + 0.65, origin(2) - 0.02, 'x', 'FontSize', 8.5);
 
 set(fig, 'InvertHardcopy', 'off');
 exportgraphics(fig, fullfile(out_dir, 'figure1_solar_wind_schematic.png'), 'Resolution', 600);
+exportgraphics(fig, fullfile(out_dir, 'figure1_solar_wind_schematic.tif'), 'Resolution', 600);
 exportgraphics(fig, fullfile(out_dir, 'figure1_solar_wind_schematic.pdf'), 'ContentType', 'vector');
 
 function draw_arrow(ax, p0, p1, color, line_width, head_size)
